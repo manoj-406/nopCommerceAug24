@@ -7,7 +7,7 @@ pipeline{
         pollSCM('* * * * *')
     }
     tools{
-        dotnetsdk 'DOTNET8'
+        dotnetsdk 'dotnet8'
     }
     stages{
         stage('SCM'){
