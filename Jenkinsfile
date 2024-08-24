@@ -13,9 +13,7 @@ pipeline{
         stage('SCM'){
             steps{
                 git url: 'https://github.com/manoj-406/nopCommerceAug24.git'
-                step{
                 branch: 'develop'
-                }
             }
         }
         stage('build'){
