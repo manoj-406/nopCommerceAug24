@@ -21,13 +21,7 @@ pipeline{
                 sh 'dotnet build -c Release src/Presentation/Nop.Web/Nop.Web.cspro'
                 sh 'mkdir published && dotnet publish -o ./published -c Releasesrc/Presentation/Nop.Web/Nop.Web.csproj'
             }
-            post{
-                success{
-                     zipFile: './published.zip',         
-                        archive: true,
-                        dir: './published'
-                }
-            }
+           
 
         }
     }
