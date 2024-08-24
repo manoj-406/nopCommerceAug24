@@ -1,28 +1,30 @@
-pipeline{
-    agent {label 'dotnet8'}
-    options{
-        timeout(time: 1, unit: 'HOURS')
+pipeline {
+    agent { label 'dotnet8' }
+    options {
+        timeout(time: 1, unit: 'HOURS') 
     }
-    triggers{
+    triggers {
         pollSCM('* * * * *')
     }
-    tools{
-        dotnetsdk 'dotnet8'
-    }
-    stages{
-        stage('SCM'){
-            steps{
-                git url: 'https://github.com/manoj-406/nopCommerceAug24.git'
-                branch: 'develop'
+    stages {
+        stage('SCM') {
+            steps {
+                git url: 'https://github.com/dummyrepos/nopCommerceaug24.git',
+                    branch: 'develop'
             }
         }
-        stage('build'){
-            steps{
-                sh 'dotnet build -c Release src/Presentation/Nop.Web/Nop.Web.cspro'
-                sh 'mkdir published && dotnet publish -o ./published -c Releasesrc/Presentation/Nop.Web/Nop.Web.csproj'
+        stage('Build') {
+            steps {
+                sh 'dotnet build -c Release src/Presentation/Nop.Web/Nop.Web.csproj'
+                sh 'mkdir published && dotnet publish -o ./published -c Release src/Presentation/Nop.Web/Nop.Web.csproj'
             }
-           
-
+            post {
+                success {
+                    zip zipFile: './published.zip',
+                        archive: true,
+                        dir: './published'
+                }
+            }
         }
     }
 }
